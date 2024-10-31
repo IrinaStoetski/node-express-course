@@ -20,18 +20,31 @@ const getBody = (req, callback) => {
   });
 };
 
-// here, you could declare one or more variables to store what comes back from the form.
-let item = "Enter something below.";
+let bgColor = "white";
+let fontSize = "16";
 
-// here, you can change the form below to modify the input fields and what is displayed.
-// This is just ordinary html with string interpolation.
 const form = () => {
   return `
-  <body>
-  <p>${item}</p>
+  <body style="background-color:${bgColor};font-size:${fontSize}px;">
+  <p>BG color: ${bgColor}</p>
+   <p>Font size: ${fontSize}</p>
   <form method="POST">
-  <input name="item"></input>
+  <label>Bg color
+ <select name="background" >
+ <option value="red">Red</option>
+  <option value="blue">Blue</option>
+  <option value="green">Green</option>
+ </select>
+ </label>
+ <label>Font Size
+ <select name="fontSize" value="${fontSize}">
+ <option value="18">18</option>
+  <option value="20">20</option>
+  <option value="24">24</option>
+ </select>
+ </label>
   <button type="submit">Submit</button>
+  <button type="reset">Reset</button>
   </form>
   </body>
   `;
@@ -42,18 +55,12 @@ const server = http.createServer((req, res) => {
   console.log("req.url is ", req.url);
   if (req.method === "POST") {
     getBody(req, (body) => {
-      console.log("The body of the post is ", body);
-      // here, you can add your own logic
-      if (body["item"]) {
-        item = body["item"];
-      } else {
-        item = "Nothing was entered.";
-      }
-      // Your code changes would end here
+      bgColor = body["background"] || "white";
+      fontSize = body["fontSize"] || "black";
       res.writeHead(303, {
         Location: "/",
       });
-      res.end();
+      res.end(form());
     });
   } else {
     res.end(form());
