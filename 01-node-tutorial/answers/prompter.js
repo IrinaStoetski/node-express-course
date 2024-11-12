@@ -23,7 +23,7 @@ const getBody = (req, callback) => {
 let bgColor = "white";
 let fontSize = "16";
 
-const form = () => {
+const formTemplate = () => {
   return `
   <body style="background-color:${bgColor};font-size:${fontSize}px;">
   <p>BG color: ${bgColor}</p>
@@ -60,11 +60,15 @@ const server = http.createServer((req, res) => {
       res.writeHead(303, {
         Location: "/",
       });
-      res.end(form());
+      res.end(formTemplate());
     });
   } else {
-    res.end(form());
+    res.end(formTemplate());
   }
+});
+
+server.on("request", (req) => {
+  console.log("event received: ", req.method, req.url);
 });
 
 server.listen(3000);
