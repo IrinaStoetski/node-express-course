@@ -15,8 +15,8 @@ const reader = async () => {
 };
 
 try {
-  writer();
-  reader();
+  await writer();
+  await reader();
 } catch (error) {
   console.log("Error: ", error);
 }
