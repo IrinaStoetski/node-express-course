@@ -28,13 +28,12 @@ app.get("/api/v1/query", (req, res) => {
       product.name.toLowerCase().startsWith(search.toLowerCase())
     );
   }
+  if (hasImages === "true") {
+    filteredProducts = filteredProducts.filter((product) => !!product.image);
+  }
 
   if (limit) {
     filteredProducts = filteredProducts.slice(0, parseInt(limit));
-  }
-
-  if (hasImages === "true") {
-    filteredProducts = filteredProducts.filter((product) => !!product.image);
   }
 
   res.json(filteredProducts);
